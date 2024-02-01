@@ -8,28 +8,17 @@ namespace SistemaDeTarefas
 {
     class ControlUsuario
     {
-        private string login;
-        private string senha;
         private int opcao;
+        DAO bd;
         //Método Construtor
         public ControlUsuario()
         {
             opcao = 0;
+            bd = new DAO();
         }
         //Fim do método construtor
 
         //Método Modificador
-        public string Login
-        {
-            get { return login; }
-            set { login = value; }
-        }
-
-        public string Senha
-        {
-            get { return senha; }
-            set { senha = value; }
-        }
 
         public int Opcao
         {
@@ -48,22 +37,26 @@ namespace SistemaDeTarefas
         public void MenuLogin()
         {
             Console.WriteLine("\nLogin: ");
-            Login = Console.ReadLine();
+            string login = Console.ReadLine();
             Console.WriteLine("\nSenha: ");
-            Senha = Console.ReadLine();
+            string senha = Console.ReadLine();
         }//Fim do método MenuLogin
 
         public void MenuCadastro()
         {
             Console.WriteLine("\nPara o cadastro, informe as seguintes informações: " +
-                              "\n\nNome: ");
+                              "\nLogin: ");
+            string login = Console.ReadLine();
+            Console.WriteLine("\nSenha: ");
+            string senha = Console.ReadLine();
+            Console.WriteLine("\nNome: ");
             string nome = Console.ReadLine();
             Console.WriteLine("\nTelefone: ");
-            string telefone = Console.ReadLine();
-            Console.WriteLine("\nCPF: ");
-            float cpf = Convert.ToInt32(Console.ReadLine());
+            long telefone = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("\nEndereco: ");
             string endereco = Console.ReadLine();
+
+            bd.Inserir("Usuário",login, senha, nome, telefone, endereco);
         }
 
         public void MenuCompleto()
