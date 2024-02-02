@@ -38,3 +38,42 @@ C:\Users\fabio.hkcesare\source\repos\SistemaDeTarefas\SistemaDeTarefas\bin\Debug
 C:\Users\fabio.hkcesare\source\repos\SistemaDeTarefas\SistemaDeTarefas\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\fabio.hkcesare\source\repos\SistemaDeTarefas\SistemaDeTarefas\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\fabio.hkcesare\source\repos\SistemaDeTarefas\SistemaDeTarefas\obj\Debug\SistemaDeTarefas.csproj.CopyComplete
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\SistemaDeTarefas.exe.config
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\SistemaDeTarefas.exe
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\SistemaDeTarefas.pdb
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\BouncyCastle.Cryptography.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\Google.Protobuf.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\MySql.Data.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Buffers.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.IO.Pipelines.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Memory.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\ZstdSharp.dll
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\BouncyCastle.Cryptography.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\Google.Protobuf.pdb
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\Google.Protobuf.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\K4os.Compression.LZ4.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\K4os.Compression.LZ4.Streams.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\K4os.Hash.xxHash.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\MySql.Data.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Buffers.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.IO.Pipelines.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Memory.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\obj\Debug\SistemaDeTarefas.csproj.AssemblyReference.cache
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\obj\Debug\SistemaDeTarefas.csproj.CoreCompileInputs.cache
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\obj\Debug\SistemaDeTarefas.csproj.CopyComplete
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\obj\Debug\SistemaDeTarefas.exe
+C:\Users\Fabio Kuriki\source\repos\SistemaTarefas\SistemaDeTarefas\obj\Debug\SistemaDeTarefas.pdb
