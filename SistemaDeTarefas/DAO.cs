@@ -23,6 +23,8 @@ namespace SistemaDeTarefas
         public string[] endereco;
         public int i;
         public int contador;
+        
+        //Método para se conectar ao BD
         public DAO()
         {
             bd = new MySqlConnection("server = localhost; DataBase = tarefas; Uid = root; Password = ");//Localização do Banco de Dados
@@ -38,12 +40,13 @@ namespace SistemaDeTarefas
             }//Fim do try catch
         }//Fim do método
 
+        //Método Inserir
         public void Inserir(string login, string senha, string nome, long telefone, string endereco)
         {
             try
             {
                 dadosInseridos = "('" + login + "','" + senha + "','" + nome + "','" + telefone + "','" + endereco + "')";
-                insertUsuario = "insert into Usuário(login, senha, nome, telefone, endereco) values" + dadosInseridos;
+                insertUsuario = "insert into usuario(login, senha, nome, telefone, endereco) values" + dadosInseridos;
 
                 MySqlCommand insert = new MySqlCommand(insertUsuario, bd);//Prepara a execução no banco
                 resultado = "" + insert.ExecuteNonQuery();//Ctrl + Enter
@@ -56,9 +59,10 @@ namespace SistemaDeTarefas
 
         }//Fim do método Inserir
 
+        //Método para pegar os dados do BD e armazenar em variáveis para uso
         public void PreencherVetor()
         {
-            string consultar = "select * from Usuário";
+            string consultar = "select * from usuario";
 
             //Vetores que serão utilizados para pegar os dados no banco de dados e mostrar em tela
             login = new string[100];
@@ -111,9 +115,10 @@ namespace SistemaDeTarefas
                 }
             }
             Console.Clear();
-            return "\nUsuário não encontrado em sistema";
+            return "\nUsuário não encontrado em sistema ou senha inválida";
         }//Fim do método Verificar
 
+        //Método para validar o login do usuário e seguir para o próximo menu
         public Boolean Verificar(string loginAtual, string senhaAtual)
         {
             PreencherVetor();
@@ -126,5 +131,19 @@ namespace SistemaDeTarefas
             }
             return false;
         }//Fim do método Verificar
+
+        //Método para verificar se o login utilizado no cadastro se encontra disponível ou não
+        public Boolean LoginUnico(string login2)
+        {
+            PreencherVetor();
+            for(i = 0; i < contador; i++)
+            {
+                if(login2 == login[i])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }//Fim do método
     }
 }

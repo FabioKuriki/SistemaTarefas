@@ -15,6 +15,7 @@ namespace SistemaDeTarefas
         private string login;
         private string senha;
         DAOTarefas bdTarefas;
+        private int codigo;
         //Método Construtor
         public ControlUsuario()
         {
@@ -54,9 +55,17 @@ namespace SistemaDeTarefas
 
         public void MenuCadastro()
         {
-            Console.WriteLine("\nPara o cadastro, informe as seguintes informações: " +
-                              "\nLogin: ");
-            string login = Console.ReadLine();
+            Console.WriteLine("\nPara o cadastro, informe as seguintes informações: ");
+            do
+            {
+                Console.WriteLine("\nLogin: ");
+                login = Console.ReadLine();
+
+                if(bd.LoginUnico(login) == true)
+                {
+                    Console.WriteLine("Login existente, tente outro");
+                }
+            } while (bd.LoginUnico(login) == true);
             Console.WriteLine("\nSenha: ");
             string senha = Console.ReadLine();
             Console.WriteLine("\nNome: ");
@@ -97,7 +106,10 @@ namespace SistemaDeTarefas
             {
                 Console.WriteLine("\nO que você gostaria de fazer? " +
                   "\n1. Criar tarefa" +
-                  "\n2. Consultar tarefa");
+                  "\n2. Consultar tarefa" +
+                  "\n3. Atualizar tarefa" +
+                  "\n4. Deletar tarefa" +
+                  "\n5. Sair");
                 Opcao = Convert.ToInt32(Console.ReadLine());
             }
             else
@@ -105,6 +117,7 @@ namespace SistemaDeTarefas
                 MenuCompleto();
             }
         }
+       
 
         public void MenuTarefas(Boolean teste)
         {
@@ -115,16 +128,30 @@ namespace SistemaDeTarefas
                 {
                     case 1:
                         CriarTarefa();
+                        MenuTarefas(bd.Verificar(login, senha));
                         break;
                     case 2:
+                        bdTarefas.Consultar();
+                        MenuTarefas(bd.Verificar(login, senha));
+                        break;
+                    case 3:
+                        MenuAtualizarCerteza();
+                        break;
+                    case 4:
+                        //Deletar
+                        break;
+                    case 5:
+                        Console.Clear();
+                        Console.WriteLine("Deslogado com sucesso");
                         break;
                     default:
                         Console.WriteLine("Escolha uma das opções válidas");
                         break;
                 }
-            } while(Opcao != 1 || Opcao != 2);
-        }
-
+            } while(Opcao != 3);
+        }//Fim do método
+        
+        //Método para criar uma tarefa
         public void CriarTarefa()
         {
             Console.WriteLine("\nNome da tarefa: ");
@@ -133,11 +160,41 @@ namespace SistemaDeTarefas
             string descricao = Console.ReadLine();
             DateTime dataHora = DateTime.Now;
             string dt = dataHora.ToString("yyyy-MM-dd H:mm:ss");
-            
-
-            Console.WriteLine(dt);
 
             bdTarefas.InserirTarefas(nomeTarefa, descricao, dt);
+        }//Fim do método
+        
+        //Método para atualizar a tarefa
+        public void MenuAtualizarTarefa()
+        {
+            Console.WriteLine("\nInforme o código da tarefa a ser atualizada: ");
+            codigo = Convert.ToInt32(Console.ReadLine());
+            bdTarefas.Consultar(codigo);
+        }//Fim do método
+
+        public void AtualizarCerteza()
+        {
+            MenuAtualizarTarefa();
+            Console.WriteLine("\nTem certeza?" +
+                              "\n1. Sim" +
+                              "\n2. Não");
+            Opcao = Convert.ToInt32(Console.ReadLine());
+        }//fim do método
+
+        public void MenuAtualizarCerteza()
+        {
+            AtualizarCerteza();
+            switch (Opcao)
+            {
+                case 1:
+                    break;
+                case 2:
+                    MenuTarefas(bd.Verificar(login, senha));
+                    break;
+                default:
+                    Console.WriteLine("Use uma opção válida");
+                    break;
+            }
         }
     }
 }
