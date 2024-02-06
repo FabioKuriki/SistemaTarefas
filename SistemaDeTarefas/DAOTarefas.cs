@@ -17,7 +17,8 @@ namespace SistemaDeTarefas
         public MySqlConnection bd;
         public int i;
         public int contador;
-
+        public string[] usuarioLogado;
+        public string msg;
         //Método para conectar no BD
         public DAOTarefas()
         {
@@ -26,13 +27,13 @@ namespace SistemaDeTarefas
         }//Fim do método
 
         //Método para inserir dados na entidade Tarefas
-        public void InserirTarefas(string nome, string descricao, string dataHora)
+        public void InserirTarefas(string nome, string descricao, string dataHora, string usuarioLogado)
         {
             try
             {
                 //Olhar a parte da chave estrangeira
-                string dadosInseridos = "('','" + nome + "','" + descricao + "','" + dataHora + "')";
-                string insertUsuario = "insert into tarefasDados(codigoTarefas, nome, descricao, dataHora) values" + dadosInseridos;
+                string dadosInseridos = "('','" + nome + "','" + descricao + "','" + dataHora + "', '" + usuarioLogado + "')";
+                string insertUsuario = "insert into tarefasDados(codigoTarefas, nome, descricao, dataHora, loginUsuario) values" + dadosInseridos;
 
                 MySqlCommand insert = new MySqlCommand(insertUsuario, bd);//Prepara a execução no banco
                 string resultado = "" + insert.ExecuteNonQuery();//Ctrl + Enter
@@ -55,6 +56,7 @@ namespace SistemaDeTarefas
             nomeTarefa = new string[100];
             descricao = new string[100];
             dataHora = new DateTime[100];
+            usuarioLogado = new string[100];
 
             for (i = 0; i < 100; i++)
             {
@@ -62,6 +64,7 @@ namespace SistemaDeTarefas
                 nomeTarefa[i] = "";
                 descricao[i] = "";
                 dataHora[i] = DateTime.Now;
+                usuarioLogado[i] = "";
             }//Fim do For
 
             MySqlCommand leitura = new MySqlCommand(consultar, bd);
@@ -75,31 +78,21 @@ namespace SistemaDeTarefas
                 nomeTarefa[i] = "" + select["nome"];
                 descricao[i] = "" + select["descricao"];
                 dataHora[i] = Convert.ToDateTime(select["dataHora"]);
+                usuarioLogado[i] = "" + select["loginUsuario"];
                 i++;
                 contador++;
+
             }//Preenchendo o vetor com os dados do banco
 
             select.Close();//Encerrar o acesso ao Banco de Dados
-        }//Fim do método
+        }//Fim do método PreencherTarefas
 
-        public void Consultar()
+        public void Consultar(string loginAtual)
         {
             PreencherTarefas();
             for(i = 0; i < contador; i++)
             {
-                Console.WriteLine("\nCódigo da tarefa: " + idTarefas[i] +
-                                  "\nNome: " + nomeTarefa[i] +
-                                  "\nDescrição: " + descricao[i] +
-                                  "\nCriado em " + dataHora[i]);
-            }
-        }//Fim do método Consultar
-
-        public void Consultar(int cod)
-        {
-            PreencherTarefas();
-            for (i = 0; i < contador; i++)
-            {
-                if (idTarefas[i] == cod)
+                if(loginAtual == usuarioLogado[i])
                 {
                     Console.WriteLine("\nCódigo da tarefa: " + idTarefas[i] +
                                       "\nNome: " + nomeTarefa[i] +
@@ -109,9 +102,66 @@ namespace SistemaDeTarefas
             }
         }//Fim do método Consultar
 
-        public void AtualizarTarefas(string coluna)
+        public string ConsultarParaAtualizar(int cod, string loginAtual)
         {
-            string atualizar = "update tarefasDados set " + coluna;
+            msg = "";
+            PreencherTarefas();
+            for (i = 0; i < contador; i++)
+            {
+                if (idTarefas[i] == cod && loginAtual == usuarioLogado[i])
+                {
+                    msg += "\nCódigo da tarefa: " + idTarefas[i] +
+                                      "\nNome: " + nomeTarefa[i] +
+                                      "\nDescrição: " + descricao[i] +
+                                      "\nCriado em " + dataHora[i];
+                    return msg;
+                }
+            }
+            msg = "O código informado é inválida ou não existe";
+            return msg;
+        }//Fim do método Consultar
+
+        public Boolean ConsultarParaAtualizarVerificacao(int cod, string loginAtual)
+        {
+            PreencherTarefas();
+            for (i = 0; i < contador; i++)
+            {
+                if (idTarefas[i] == cod && loginAtual == usuarioLogado[i])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }//Fim do método Consultar
+        public void AtualizarTarefas(int opcao, string dados, int cod)
+        {
+            string coluna = "";
+            if(opcao == 1)
+            {
+                coluna = "nome";
+            }else
+            {
+                coluna = "descricao";
+            }
+            string atualizar = "update tarefasDados set " + coluna + " = '" +  dados + "' where codigoTarefas" + " = " + cod;
+            MySqlCommand update = new MySqlCommand(atualizar, bd);
+            update.ExecuteNonQuery();
         }
+
+        public void AtualizarDateTime(int cod)
+        {
+            DateTime dataHora = DateTime.Now;
+            string dataHoraFormatado = dataHora.ToString("yyyy-MM-ss H:mm:ss");
+            string atualizarDataHora = "update tarefasDados set dataHora = '" + dataHoraFormatado + "' where codigoTarefas" + " = " + cod;
+            MySqlCommand updateDataHora = new MySqlCommand(atualizarDataHora, bd);
+            updateDataHora.ExecuteNonQuery();
+        }
+
+        public void DeletarTarefas(int cod)
+        {
+            string deletar = "delete from tarefasDados where codigoTarefas = '" + cod + "'";
+            MySqlCommand delete = new MySqlCommand(deletar, bd);
+            delete.ExecuteNonQuery();
+        }//Fim do método DeletarTarefas
     }
 }

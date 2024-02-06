@@ -49,8 +49,8 @@ namespace SistemaDeTarefas
                 insertUsuario = "insert into usuario(login, senha, nome, telefone, endereco) values" + dadosInseridos;
 
                 MySqlCommand insert = new MySqlCommand(insertUsuario, bd);//Prepara a execução no banco
-                resultado = "" + insert.ExecuteNonQuery();//Ctrl + Enter
-                Console.WriteLine(resultado + "Linha(s) afetada(s)");
+                insert.ExecuteNonQuery();//Ctrl + Enter
+                Console.WriteLine("Cadastro realizado com sucesso");
             }
             catch (Exception erro)
             {
@@ -101,6 +101,22 @@ namespace SistemaDeTarefas
 
             select.Close();//Encerrar o acesso ao Banco de Dados
         }//Fim do preencher
+
+        public void ConsultarUsuario(string loginAtual)
+        {
+            PreencherVetor();
+            for(i = 0; i < contador; i++)
+            {
+                if(loginAtual == login[i])
+                {
+                    Console.WriteLine("\nLogin: " + login[i] +
+                                      "\nSenha: " + senha[i] +
+                                      "\nNome: " + nome[i] +
+                                      "\nTelefone: " + telefone[i] +
+                                      "\nEndereço: " + endereco[i]);
+                }
+            }
+        }
 
         //Método para verificar com base no login informado, se o mesmo está no banco de dados
         public string UsuarioAtual(string loginAtual, string senhaAtual)
