@@ -15,7 +15,6 @@ namespace SistemaDeTarefas
         public MySqlConnection bd;
         public string dadosInseridos;//Variável para guardar o dados a serem inclúídos
         public string insertUsuario;//Variável para o comando de execução de INSERT
-        public string resultado;
         public string[] login;
         public string[] senha;
         public string[] nome;
@@ -58,6 +57,37 @@ namespace SistemaDeTarefas
             }
 
         }//Fim do método Inserir
+
+        public void AtualizarUsuario(int opcao, string dados, string loginAtual)
+        {
+            string coluna = "";
+            if (opcao == 1)
+            {
+                coluna = "senha";
+            }
+            if (opcao == 2)
+            {
+                coluna = "nome";
+            }
+            if (opcao == 3)
+            {
+                coluna = "telefone";
+            }
+            if (opcao == 4)
+            {
+                coluna = "endereco";
+            }
+            string atualizar = "update usuario set " + coluna + " = '" + dados + "' where login" + " = " + loginAtual;
+            MySqlCommand update = new MySqlCommand(atualizar, bd);
+            update.ExecuteNonQuery();
+        }
+
+        public void DeletarUsuario(string login)
+        {
+            string deletar = "delete from usuario where login = '" + login + "'";
+            MySqlCommand delete = new MySqlCommand(deletar, bd);
+            delete.ExecuteNonQuery();
+        }
 
         //Método para pegar os dados do BD e armazenar em variáveis para uso
         public void PreencherVetor()
@@ -116,7 +146,7 @@ namespace SistemaDeTarefas
                                       "\nEndereço: " + endereco[i]);
                 }
             }
-        }
+        }//Fim do método ConsultarUsuario
 
         //Método para verificar com base no login informado, se o mesmo está no banco de dados
         public string UsuarioAtual(string loginAtual, string senhaAtual)

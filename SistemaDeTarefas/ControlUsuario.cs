@@ -10,6 +10,9 @@ namespace SistemaDeTarefas
     class ControlUsuario
     {
         private int opcao;
+        private int opcao2;
+        private int opcao3;
+        private int opcao4;
         DAO bd;
         private string login;
         private string senha;
@@ -47,9 +50,9 @@ namespace SistemaDeTarefas
         }//Fim do método Menu
         public void MenuLogin()
         {
-            Console.WriteLine("\nLogin: ");
+            Console.Write("\nLogin: ");
             login = Console.ReadLine();
-            Console.WriteLine("\nSenha: ");
+            Console.Write("\nSenha: ");
             senha = Console.ReadLine();
 
             Console.WriteLine(bd.UsuarioAtual(login, senha));
@@ -61,7 +64,8 @@ namespace SistemaDeTarefas
             Console.WriteLine("\nPara o cadastro, informe as seguintes informações: ");
             do
             {
-                Console.WriteLine("\nLogin: ");
+                Console.Write("\nÉ importante lembrar que após a criação do login, o mesmo não poderá ser alterado" + 
+                                  "\nLogin: ");
                 login = Console.ReadLine();
 
                 if(bd.LoginUnico(login) == true)
@@ -69,13 +73,13 @@ namespace SistemaDeTarefas
                     Console.WriteLine("Login existente, tente outro");
                 }
             } while (bd.LoginUnico(login) == true);
-            Console.WriteLine("\nSenha: ");
+            Console.Write("\nSenha: ");
             string senha = Console.ReadLine();
-            Console.WriteLine("\nNome: ");
+            Console.Write("\nNome: ");
             string nome = Console.ReadLine();
-            Console.WriteLine("\nTelefone: ");
+            Console.Write("\nTelefone: ");
             long telefone = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("\nEndereco: ");
+            Console.Write("\nEndereco: ");
             string endereco = Console.ReadLine();
 
             bd.Inserir(login, senha, nome, telefone, endereco);
@@ -97,7 +101,7 @@ namespace SistemaDeTarefas
                         MenuCadastro();
                         break;
                     case 3:
-                        Console.WriteLine("Tenha um ótimo dia");
+                        Console.WriteLine("\nTenha um ótimo dia");
                         break;
                     default:
                         Console.WriteLine("Informe uma opção válida");
@@ -106,7 +110,7 @@ namespace SistemaDeTarefas
             } while (Opcao != 3);
         }//Fim do método MenuCompleto
         //-----------------------------------------------------------------------------Parte do Usuário---------------------------------------------------------------------------
-        int opcao2;
+ 
         public void MenuUsuario(Boolean verificacaoLogin)
         {
             if(verificacaoLogin == true)
@@ -117,7 +121,7 @@ namespace SistemaDeTarefas
                   "\n3. Atualizar tarefa" +
                   "\n4. Deletar tarefa" +
                   "\n5. Configurações do usuário" +
-                  "\n5. Deslogar");
+                  "\n6. Deslogar");
                 opcao2 = Convert.ToInt32(Console.ReadLine());
             }
             else
@@ -157,8 +161,7 @@ namespace SistemaDeTarefas
                         break;
                     case 6:
                         Console.Clear();
-                        Console.WriteLine("Deslogado com sucesso");
-                        MenuCompleto();
+                        Console.WriteLine("\nDeslogado com sucesso");
                         break;
                     default:
                         Console.WriteLine("Escolha uma das opções válidas");
@@ -169,12 +172,12 @@ namespace SistemaDeTarefas
 
         public void Configuracao()
         {
-            Console.WriteLine("Abrindo configurações do usuário: " +
+            Console.WriteLine("\nAbrindo configurações do usuário: " +
                               "\n1. Consultar dados" + 
                               "\n2. Alterar dados" +
                               "\n3. Deletar conta" +
                               "\n4. Voltar");
-            opcao2 = Convert.ToInt32(Console.ReadLine());   
+            opcao4 = Convert.ToInt32(Console.ReadLine());   
         }
 
         public void MenuConfiguracao()
@@ -183,23 +186,108 @@ namespace SistemaDeTarefas
             do
             {
                 Configuracao();
-                switch (opcao2)
+                switch (opcao4)
                 {
                     case 1:
                         bd.ConsultarUsuario(login);
                         break;
                     case 2:
+                        bd.ConsultarUsuario(login);
+                        AlterarDadosCompleto();
                         break;
                     case 3:
+                        MenuCertezaDeletarDadosCompleto();
+                        //Deletar dados
                         break;
                     case 4:
+                        MenuTarefas(bd.Verificar(login, senha));
                         break;
                     default:
                         Console.WriteLine("Selecione uma opção válida");
                         break;
                 }
-            }while(opcao2 != 4);
+            }while(opcao4 != 4);
             
+        }
+
+        public void MenuCertezaDeletarDados()
+        {
+            Console.WriteLine("\nTem certeza?" +
+                              "\n1. Sim" +
+                              "\n2. Não");
+            opcao3 = Convert.ToInt32(Console.ReadLine());
+        }
+
+        public void MenuCertezaDeletarDadosCompleto()
+        {
+            do
+            {
+                MenuCertezaDeletarDados();
+                switch (opcao3)
+                {
+                    case 1:
+                        bdTarefas.DeletarTodasTarefasUsuario(login);
+                        bd.DeletarUsuario(login);
+                        Console.WriteLine("Conta deletada com sucesso!!!");
+                        MenuCompleto();
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        break;
+                }
+            }while(opcao3 < 1 || opcao3 > 2);
+        }
+        public void AlterarDados()
+        {
+            Console.WriteLine("\nQual opção gostaria de alterar? " +
+                              "\n1. Senha" +
+                              "\n2. Nome" +
+                              "\n3. Telefone" +
+                              "\n4. Endereço" +
+                              "\n5. Voltar");
+            opcao4 = Convert.ToInt32(Console.ReadLine());
+        }
+
+        public void AlterarDadosCompleto()
+        {
+            do
+            {
+                AlterarDados();
+                switch (opcao4)
+                {
+                    case 1:
+                        Console.Write("Nova senha: ");
+                        string senha = Console.ReadLine();
+                        bd.AtualizarUsuario(opcao4, senha, login);
+                        MenuConfiguracao();
+                        break;
+                    case 2:
+                        Console.Write("Novo nome: ");
+                        string nome = Console.ReadLine();
+                        bd.AtualizarUsuario(opcao4, nome, login);
+                        MenuConfiguracao();
+                        break;
+                    case 3:
+                        Console.Write("Novo telefone: ");
+                        long telefone = Convert.ToInt64(Console.ReadLine());
+                        string telefone2 = telefone.ToString();
+                        bd.AtualizarUsuario(opcao4, telefone2, login);
+                        MenuConfiguracao();
+                        break;
+                    case 4:
+                        Console.Write("Novo endereço: ");
+                        string endereco = Console.ReadLine();
+                        bd.AtualizarUsuario(opcao4, endereco, login);
+                        MenuConfiguracao();
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        Console.WriteLine("Selecione uma opção válida");
+                        break;
+                }
+            }while(opcao4 != 5);
         }
 
         //--------------------------------------------------------------------Parte das tarefas--------------------------------------------------------------------------------------
@@ -207,9 +295,9 @@ namespace SistemaDeTarefas
         //Método para criar uma tarefa
         public void CriarTarefa()
         {
-            Console.WriteLine("\nNome da tarefa: ");
+            Console.Write("\nNome da tarefa: ");
             string nomeTarefa = Console.ReadLine();
-            Console.WriteLine("Descrição: ");
+            Console.Write("Descrição: ");
             string descricao = Console.ReadLine();
             DateTime dataHora = DateTime.Now;
             string dt = dataHora.ToString("yyyy-MM-dd H:mm:ss");
@@ -217,11 +305,11 @@ namespace SistemaDeTarefas
             bdTarefas.InserirTarefas(nomeTarefa, descricao, dt, login);
         }//Fim do método
 
-        int opcao3;
+
         //Método para atualizar a tarefa
         public void MenuAtualizarTarefa()
         {
-            Console.WriteLine("\nInforme o código da tarefa: ");
+            Console.Write("\nInforme o código da tarefa: ");
             codigo = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine(bdTarefas.ConsultarParaAtualizar(codigo, login));
         }//Fim do método
@@ -336,6 +424,34 @@ namespace SistemaDeTarefas
 
         //---------------------------------------------------------------Parte do Admin--------------------------------------------------------------------
 
+        //ver lista de usuarios
+        //quantidades de tarefas registradas
 
+        public void MenuAdmin()
+        {
+            Console.WriteLine("\nO que você gostaria de fazer? " +
+                  "\n1. Consultar usuários" +
+                  "\n2. Deslogar");
+            opcao2 = Convert.ToInt32(Console.ReadLine());
+        }
+
+        public void MenuAdminCompleto()
+        {
+            do
+            {
+                MenuAdmin();
+                switch (opcao2)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        Console.WriteLine("Tenha um bom dia!!");
+                        break;
+                    default:
+                        Console.WriteLine("Informe uma opção válida");
+                        break;
+                }
+            }while(opcao2 != 2);
+        }
     }
 }

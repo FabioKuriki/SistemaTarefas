@@ -163,5 +163,12 @@ namespace SistemaDeTarefas
             MySqlCommand delete = new MySqlCommand(deletar, bd);
             delete.ExecuteNonQuery();
         }//Fim do método DeletarTarefas
+
+        public void DeletarTodasTarefasUsuario(string login)
+        {
+            string deletar = "delete from tarefasDados where loginUsuario = '" + login + "'";
+            MySqlCommand delete = new MySqlCommand(deletar, bd);
+            delete.ExecuteNonQuery();
+        }//Fim do método DeletarTarefas
     }
 }

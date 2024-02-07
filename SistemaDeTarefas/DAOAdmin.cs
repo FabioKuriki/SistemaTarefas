@@ -27,7 +27,7 @@ namespace SistemaDeTarefas
 
         public void PreencherVetor()
         {
-            string consultar = "select * from usuario";
+            string consultar = "select * from admnistrador";
 
             //Vetores que serão utilizados para pegar os dados no banco de dados e mostrar em tela
             login = new string[100];
@@ -66,5 +66,18 @@ namespace SistemaDeTarefas
 
             select.Close();//Encerrar o acesso ao Banco de Dados
         }//Fim do preencher
+
+        public Boolean Verificar(string loginAtual, string senhaAtual)
+        {
+            PreencherVetor();
+            for (i = 0; i < contador; i++)
+            {
+                if (loginAtual == login[i] && senhaAtual == senha[i])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
