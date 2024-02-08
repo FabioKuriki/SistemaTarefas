@@ -19,14 +19,15 @@ namespace SistemaDeTarefas
         DAOTarefas bdTarefas;
         private int codigo;
         private string dadosParaAlterar;
-        DAOAdmin bdAdmin;
         //Método Construtor
         public ControlUsuario()
         {
             opcao = 0;
+            opcao2 = 0;
+            opcao3 = 0;
+            opcao4 = 0;
             bd = new DAO();
             bdTarefas = new DAOTarefas();
-            bdAdmin = new DAOAdmin();
         }
         //Fim do método construtor
 
@@ -95,7 +96,7 @@ namespace SistemaDeTarefas
                 {
                     case 1:
                         MenuLogin();
-                        MenuTarefas(bd.Verificar(login, senha));
+                        AdminOuCliente();
                         break;
                     case 2:
                         MenuCadastro();
@@ -157,6 +158,7 @@ namespace SistemaDeTarefas
                         MenuDeletarCompleto();
                         break;
                     case 5:
+                        Console.Clear();
                         MenuConfiguracao();
                         break;
                     case 6:
@@ -189,9 +191,11 @@ namespace SistemaDeTarefas
                 switch (opcao4)
                 {
                     case 1:
+                        Console.Clear();
                         bd.ConsultarUsuario(login);
                         break;
                     case 2:
+                        Console.Clear();
                         bd.ConsultarUsuario(login);
                         AlterarDadosCompleto();
                         break;
@@ -228,6 +232,7 @@ namespace SistemaDeTarefas
                     case 1:
                         bdTarefas.DeletarTodasTarefasUsuario(login);
                         bd.DeletarUsuario(login);
+                        Console.Clear();
                         Console.WriteLine("Conta deletada com sucesso!!!");
                         MenuCompleto();
                         break;
@@ -379,7 +384,7 @@ namespace SistemaDeTarefas
                         Console.WriteLine("Use uma opção válida");
                         break;
                 }
-            } while (opcao3 != 3);
+            } while (opcao3 < 1 || opcao3 > 2);
         }//Fim do método
 
         public void MenuDeletarCompleto()
@@ -419,7 +424,7 @@ namespace SistemaDeTarefas
                         Console.WriteLine("Use uma opção válida");
                         break;
                 }
-            } while (opcao3 != 3);
+            } while (opcao3 < 1 || opcao3 > 2);
         }//Fim do métdod MenuDeletarCerteza
 
         //---------------------------------------------------------------Parte do Admin--------------------------------------------------------------------
@@ -427,12 +432,14 @@ namespace SistemaDeTarefas
         //ver lista de usuarios
         //quantidades de tarefas registradas
 
+        private int opcao6;
         public void MenuAdmin()
         {
             Console.WriteLine("\nO que você gostaria de fazer? " +
-                  "\n1. Consultar usuários" +
-                  "\n2. Deslogar");
-            opcao2 = Convert.ToInt32(Console.ReadLine());
+                  "\n1. Consultar todos os usuários" +
+                  "\n2. Consultar tarefas de usuário" +
+                  "\n3. Deslogar");
+            opcao6 = Convert.ToInt32(Console.ReadLine());
         }
 
         public void MenuAdminCompleto()
@@ -440,18 +447,37 @@ namespace SistemaDeTarefas
             do
             {
                 MenuAdmin();
-                switch (opcao2)
+                switch (opcao6)
                 {
                     case 1:
+                        bd.ConsultarTodosUsuarios();
                         break;
                     case 2:
+                        Console.Write("Informe o login do usuário a ser verificado: ");
+                        string loginUsuario = Console.ReadLine();
+                        bdTarefas.ConsultarTarefasDeUsuario(loginUsuario);
+                        break;
+                    case 3:
+                        Console.Clear();
                         Console.WriteLine("Tenha um bom dia!!");
                         break;
                     default:
                         Console.WriteLine("Informe uma opção válida");
                         break;
                 }
-            }while(opcao2 != 2);
-        }
+            } while (opcao6 != 3);
+        }//Fim do método
+
+        public void AdminOuCliente()
+        {
+            if (bd.VerificarAdmin(login, senha) == true)
+            {
+                MenuAdminCompleto();
+            }
+            else
+            {
+                MenuTarefas(bd.Verificar(login, senha));
+            }
+        }//Fim do método
     }
 }

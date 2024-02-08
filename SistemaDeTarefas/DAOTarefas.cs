@@ -33,7 +33,7 @@ namespace SistemaDeTarefas
             {
                 //Olhar a parte da chave estrangeira
                 string dadosInseridos = "('','" + nome + "','" + descricao + "','" + dataHora + "', '" + usuarioLogado + "')";
-                string insertUsuario = "insert into tarefasDados(codigoTarefas, nome, descricao, dataHora, loginUsuario) values" + dadosInseridos;
+                string insertUsuario = "insert into tarefasDados(codigoTarefas, nome, descricao, dataHora, login) values" + dadosInseridos;
 
                 MySqlCommand insert = new MySqlCommand(insertUsuario, bd);//Prepara a execução no banco
                 string resultado = "" + insert.ExecuteNonQuery();//Ctrl + Enter
@@ -78,7 +78,7 @@ namespace SistemaDeTarefas
                 nomeTarefa[i] = "" + select["nome"];
                 descricao[i] = "" + select["descricao"];
                 dataHora[i] = Convert.ToDateTime(select["dataHora"]);
-                usuarioLogado[i] = "" + select["loginUsuario"];
+                usuarioLogado[i] = "" + select["login"];
                 i++;
                 contador++;
 
@@ -102,6 +102,20 @@ namespace SistemaDeTarefas
             }
         }//Fim do método Consultar
 
+        public void ConsultarTarefasDeUsuario(string loginUsuario)
+        {
+            PreencherTarefas();
+            for (i = 0; i < contador; i++)
+            {
+                if (loginUsuario == usuarioLogado[i])
+                {
+                    Console.WriteLine("\nCódigo da tarefa: " + idTarefas[i] +
+                                      "\nNome: " + nomeTarefa[i] +
+                                      "\nDescrição: " + descricao[i] +
+                                      "\nCriado em " + dataHora[i]);
+                }
+            }
+        }//Fim do método Consultar
         public string ConsultarParaAtualizar(int cod, string loginAtual)
         {
             msg = "";
@@ -166,7 +180,7 @@ namespace SistemaDeTarefas
 
         public void DeletarTodasTarefasUsuario(string login)
         {
-            string deletar = "delete from tarefasDados where loginUsuario = '" + login + "'";
+            string deletar = "delete from tarefasDados where login = '" + login + "'";
             MySqlCommand delete = new MySqlCommand(deletar, bd);
             delete.ExecuteNonQuery();
         }//Fim do método DeletarTarefas

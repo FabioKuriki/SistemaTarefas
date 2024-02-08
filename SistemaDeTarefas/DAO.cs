@@ -20,6 +20,7 @@ namespace SistemaDeTarefas
         public string[] nome;
         public long[] telefone;
         public string[] endereco;
+        public string[] tipo;
         public int i;
         public int contador;
         
@@ -44,8 +45,8 @@ namespace SistemaDeTarefas
         {
             try
             {
-                dadosInseridos = "('" + login + "','" + senha + "','" + nome + "','" + telefone + "','" + endereco + "')";
-                insertUsuario = "insert into usuario(login, senha, nome, telefone, endereco) values" + dadosInseridos;
+                dadosInseridos = "('" + login + "','" + senha + "','" + nome + "','" + telefone + "','" + endereco + "','Cliente')";
+                insertUsuario = "insert into usuario(login, senha, nome, telefone, endereco, tipo) values" + dadosInseridos;
 
                 MySqlCommand insert = new MySqlCommand(insertUsuario, bd);//Prepara a execução no banco
                 insert.ExecuteNonQuery();//Ctrl + Enter
@@ -100,6 +101,7 @@ namespace SistemaDeTarefas
             nome = new string[100];
             telefone = new long[100];
             endereco = new string[100];
+            tipo = new string[100];
 
             //Preencher com valores genéricos quer serão substituídos de acordo com novos dados adicionados
             for (i = 0; i < 100; i++)
@@ -109,6 +111,7 @@ namespace SistemaDeTarefas
                 nome[i] = "";
                 telefone[i] = 0;
                 endereco[i] = "";
+                tipo[i] = "";
             }//Fim do For
 
             //Preparando o comando para o banco
@@ -125,6 +128,7 @@ namespace SistemaDeTarefas
                 nome[i] = "" + select["nome"];
                 telefone[i] = Convert.ToInt64(select["telefone"]);
                 endereco[i] = "" + select["endereco"];
+                tipo[i] = "" + select["tipo"];
                 i++;
                 contador++;
             }//Preenchendo o vetor com os dados do banco
@@ -191,5 +195,31 @@ namespace SistemaDeTarefas
             }
             return false;
         }//Fim do método
+
+        public Boolean VerificarAdmin(string loginAtual, string senhaAtual)
+        {
+            PreencherVetor();
+            for (i = 0; i < contador; i++)
+            {
+                if (login[i] == loginAtual && senha[i] == senhaAtual && tipo[i] == "Admin")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }//Fim do método Verificar
+
+        public void ConsultarTodosUsuarios()
+        {
+            PreencherVetor();
+            for (i = 0; i < contador; i++)
+            {
+                Console.WriteLine("\nLogin: " + login[i] +
+                                  "\nNome: " + nome[i] +
+                                  "\nTelefone: " + telefone[i] +
+                                  "\nEndereço: " + endereco[i] +
+                                  "\nTipo: " + tipo[i]);
+            }
+        }
     }
 }
