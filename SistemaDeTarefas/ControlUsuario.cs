@@ -10,9 +10,6 @@ namespace SistemaDeTarefas
     class ControlUsuario
     {
         private int opcao;
-        private int opcao2;
-        private int opcao3;
-        private int opcao4;
         DAO bd;
         private string login;
         private string senha;
@@ -23,9 +20,6 @@ namespace SistemaDeTarefas
         public ControlUsuario()
         {
             opcao = 0;
-            opcao2 = 0;
-            opcao3 = 0;
-            opcao4 = 0;
             bd = new DAO();
             bdTarefas = new DAOTarefas();
         }
@@ -84,6 +78,8 @@ namespace SistemaDeTarefas
             string endereco = Console.ReadLine();
 
             bd.Inserir(login, senha, nome, telefone, endereco);
+            Console.Clear();
+            Console.WriteLine("Cadastro realizado com sucesso!!");
         }
 
         public void MenuCompleto()
@@ -123,21 +119,21 @@ namespace SistemaDeTarefas
                   "\n4. Deletar tarefa" +
                   "\n5. Configurações do usuário" +
                   "\n6. Deslogar");
-                opcao2 = Convert.ToInt32(Console.ReadLine());
+                Opcao = Convert.ToInt32(Console.ReadLine());
             }
             else
             {
                 MenuCompleto();
             }
         }//Fim do método MenuUsuario
-       
+    
 
         public void MenuTarefas(Boolean verificacaoLogin)
         {
             MenuUsuario(verificacaoLogin);
             do
             {
-                switch (opcao2)
+                switch (Opcao)
                 {
                     case 1:
                         Console.Clear();
@@ -146,20 +142,25 @@ namespace SistemaDeTarefas
                         break;
                     case 2:
                         Console.Clear();
-                        bdTarefas.Consultar(login);
-                        MenuTarefas(bd.Verificar(login, senha));
+                        Console.WriteLine(bdTarefas.Consultar(login));
+                        MenuTarefas(bd.Verificar(login, senha));//Para evitar o que fique em loop
                         break;
                     case 3:
                         Console.Clear();
+                        PegarCodigo();
                         MenuAtualizarCompleto();
+                        MenuTarefas(bd.Verificar(login, senha));
                         break;
                     case 4:
                         Console.Clear();
+                        PegarCodigo();
                         MenuDeletarCompleto();
+                        MenuTarefas(bd.Verificar(login, senha));
                         break;
                     case 5:
                         Console.Clear();
                         MenuConfiguracao();
+                        MenuTarefas(bd.Verificar(login, senha));
                         break;
                     case 6:
                         Console.Clear();
@@ -169,7 +170,7 @@ namespace SistemaDeTarefas
                         Console.WriteLine("Escolha uma das opções válidas");
                         break;
                 }
-            } while(opcao2 != 6);
+            } while(Opcao != 6);
         }//Fim do método
 
         public void Configuracao()
@@ -179,16 +180,15 @@ namespace SistemaDeTarefas
                               "\n2. Alterar dados" +
                               "\n3. Deletar conta" +
                               "\n4. Voltar");
-            opcao4 = Convert.ToInt32(Console.ReadLine());   
+            Opcao = Convert.ToInt32(Console.ReadLine());   
         }
-
+      
         public void MenuConfiguracao()
         {
-            Console.Clear();
             do
             {
                 Configuracao();
-                switch (opcao4)
+                switch (Opcao)
                 {
                     case 1:
                         Console.Clear();
@@ -200,17 +200,23 @@ namespace SistemaDeTarefas
                         AlterarDadosCompleto();
                         break;
                     case 3:
-                        MenuCertezaDeletarDadosCompleto();
-                        //Deletar dados
+                        if (bd.VerificarAdmin(login, senha) == true)
+                        {
+                            Console.WriteLine("Este tipo de conta não pode ser removida!");
+                        }
+                        else
+                        {
+                            MenuCertezaDeletarDadosCompleto();
+                        }
                         break;
                     case 4:
-                        MenuTarefas(bd.Verificar(login, senha));
+                        Console.Clear();
                         break;
                     default:
                         Console.WriteLine("Selecione uma opção válida");
                         break;
                 }
-            }while(opcao4 != 4);
+            }while(Opcao != 4);
             
         }
 
@@ -219,7 +225,7 @@ namespace SistemaDeTarefas
             Console.WriteLine("\nTem certeza?" +
                               "\n1. Sim" +
                               "\n2. Não");
-            opcao3 = Convert.ToInt32(Console.ReadLine());
+            Opcao = Convert.ToInt32(Console.ReadLine());
         }
 
         public void MenuCertezaDeletarDadosCompleto()
@@ -227,7 +233,7 @@ namespace SistemaDeTarefas
             do
             {
                 MenuCertezaDeletarDados();
-                switch (opcao3)
+                switch (Opcao)
                 {
                     case 1:
                         bdTarefas.DeletarTodasTarefasUsuario(login);
@@ -241,7 +247,7 @@ namespace SistemaDeTarefas
                     default:
                         break;
                 }
-            }while(opcao3 < 1 || opcao3 > 2);
+            }while(Opcao < 1 || Opcao > 2);
         }
         public void AlterarDados()
         {
@@ -251,7 +257,7 @@ namespace SistemaDeTarefas
                               "\n3. Telefone" +
                               "\n4. Endereço" +
                               "\n5. Voltar");
-            opcao4 = Convert.ToInt32(Console.ReadLine());
+            Opcao = Convert.ToInt32(Console.ReadLine());
         }
 
         public void AlterarDadosCompleto()
@@ -259,31 +265,39 @@ namespace SistemaDeTarefas
             do
             {
                 AlterarDados();
-                switch (opcao4)
+                switch (Opcao)
                 {
                     case 1:
                         Console.Write("Nova senha: ");
                         string senha = Console.ReadLine();
-                        bd.AtualizarUsuario(opcao4, senha, login);
+                        bd.AtualizarUsuario(Opcao, senha, login);
+                        Console.Clear();
+                        Console.WriteLine("Alteração realizada com sucesso!");
                         MenuConfiguracao();
                         break;
                     case 2:
                         Console.Write("Novo nome: ");
                         string nome = Console.ReadLine();
-                        bd.AtualizarUsuario(opcao4, nome, login);
+                        bd.AtualizarUsuario(Opcao, nome, login);
+                        Console.Clear();
+                        Console.WriteLine("Alteração realizada com sucesso!");
                         MenuConfiguracao();
                         break;
                     case 3:
                         Console.Write("Novo telefone: ");
                         long telefone = Convert.ToInt64(Console.ReadLine());
                         string telefone2 = telefone.ToString();
-                        bd.AtualizarUsuario(opcao4, telefone2, login);
+                        bd.AtualizarUsuario(Opcao, telefone2, login);
+                        Console.Clear();
+                        Console.WriteLine("Alteração realizada com sucesso!");
                         MenuConfiguracao();
                         break;
                     case 4:
                         Console.Write("Novo endereço: ");
                         string endereco = Console.ReadLine();
-                        bd.AtualizarUsuario(opcao4, endereco, login);
+                        bd.AtualizarUsuario(Opcao, endereco, login);
+                        Console.Clear();
+                        Console.WriteLine("Alteração realizada com sucesso!");
                         MenuConfiguracao();
                         break;
                     case 5:
@@ -292,7 +306,7 @@ namespace SistemaDeTarefas
                         Console.WriteLine("Selecione uma opção válida");
                         break;
                 }
-            }while(opcao4 != 5);
+            }while(Opcao < 1 && Opcao > 5);
         }
 
         //--------------------------------------------------------------------Parte das tarefas--------------------------------------------------------------------------------------
@@ -312,7 +326,7 @@ namespace SistemaDeTarefas
 
 
         //Método para atualizar a tarefa
-        public void MenuAtualizarTarefa()
+        public void PegarCodigo()
         {
             Console.Write("\nInforme o código da tarefa: ");
             codigo = Convert.ToInt32(Console.ReadLine());
@@ -326,8 +340,8 @@ namespace SistemaDeTarefas
                 Console.WriteLine("\nQual das opções vc gostaria de alterar?" +
                               "\n1. Nome" +
                               "\n2. Descrição");
-                opcao3 = Convert.ToInt32(Console.ReadLine());
-                switch (opcao3)
+                Opcao = Convert.ToInt32(Console.ReadLine());
+                switch (Opcao)
                 {
                     case 1:
                         Console.Write("\nNovo nome: ");
@@ -342,24 +356,18 @@ namespace SistemaDeTarefas
                         break;
                 }
 
-            } while (opcao3 < 1 || opcao3 > 2);
-            bdTarefas.AtualizarTarefas(opcao3, dadosParaAlterar, codigo);
+            } while (Opcao < 1 || Opcao > 2);
+            bdTarefas.AtualizarTarefas(Opcao, dadosParaAlterar, codigo);
             Console.Clear();
             Console.WriteLine("\nAlteração realizada com sucesso!!");
         }//fim do método
 
         public void MenuAtualizarCompleto()
         {
-            MenuAtualizarTarefa();
-            if (bdTarefas.ConsultarParaAtualizarVerificacao(codigo, login))
+            if (bdTarefas.ConsultarParaAtualizarVerificacao(codigo, login) == true)
             {
                 MenuAtualizarCerteza();
             }
-            else
-            {
-                MenuTarefas(bd.Verificar(login, senha));
-            }
-            
         }
 
         public void MenuAtualizarCerteza()
@@ -368,29 +376,26 @@ namespace SistemaDeTarefas
             Console.WriteLine("\nTem certeza?" +
                   "\n1. Sim" +
                   "\n2. Não");
-            opcao3 = Convert.ToInt32(Console.ReadLine());
+            Opcao = Convert.ToInt32(Console.ReadLine());
             do
             {
-                switch (opcao3)
+                switch (Opcao)
                 {
                     case 1:
-                        Atualizar();
-                        MenuTarefas(bd.Verificar(login, senha));
+                        Atualizar(); 
                         break;
                     case 2:
-                        MenuTarefas(bd.Verificar(login, senha));
                         break;
                     default:
                         Console.WriteLine("Use uma opção válida");
                         break;
                 }
-            } while (opcao3 < 1 || opcao3 > 2);
+            } while (Opcao < 1 || Opcao > 2);
         }//Fim do método
 
         public void MenuDeletarCompleto()
         {
-            MenuAtualizarTarefa();
-            if (bdTarefas.ConsultarParaAtualizarVerificacao(codigo, login))
+            if (bdTarefas.ConsultarParaAtualizarVerificacao(codigo, login) == true)
             {
                 MenuDeletarCerteza();
             }
@@ -407,24 +412,22 @@ namespace SistemaDeTarefas
             Console.WriteLine("\nTem certeza?" +
                   "\n1. Sim" +
                   "\n2. Não");
-            opcao3 = Convert.ToInt32(Console.ReadLine());
+            Opcao = Convert.ToInt32(Console.ReadLine());
             do
             {
-                switch (opcao3)
+                switch (Opcao)
                 {
                     case 1:
                         bdTarefas.DeletarTarefas(codigo);
                         Console.WriteLine("Tarefa deletada com sucesso!");
-                        MenuTarefas(bd.Verificar(login, senha));
                         break;
                     case 2:
-                        MenuTarefas(bd.Verificar(login, senha));
                         break;
                     default:
                         Console.WriteLine("Use uma opção válida");
                         break;
                 }
-            } while (opcao3 < 1 || opcao3 > 2);
+            } while (Opcao < 1 || Opcao > 2);
         }//Fim do métdod MenuDeletarCerteza
 
         //---------------------------------------------------------------Parte do Admin--------------------------------------------------------------------
@@ -432,14 +435,18 @@ namespace SistemaDeTarefas
         //ver lista de usuarios
         //quantidades de tarefas registradas
 
-        private int opcao6;
         public void MenuAdmin()
         {
             Console.WriteLine("\nO que você gostaria de fazer? " +
                   "\n1. Consultar todos os usuários" +
                   "\n2. Consultar tarefas de usuário" +
-                  "\n3. Deslogar");
-            opcao6 = Convert.ToInt32(Console.ReadLine());
+                  "\n3. Criar tarefa" +
+                  "\n4. Consultar tarefa" +
+                  "\n5. Atualizar tarefa" +
+                  "\n6. Deletar tarefa" +
+                  "\n7. Configurações do usuário" +
+                  "\n8. Deslogar");
+            Opcao = Convert.ToInt32(Console.ReadLine());
         }
 
         public void MenuAdminCompleto()
@@ -447,25 +454,48 @@ namespace SistemaDeTarefas
             do
             {
                 MenuAdmin();
-                switch (opcao6)
+                switch (Opcao)
                 {
                     case 1:
+                        Console.Clear();
                         bd.ConsultarTodosUsuarios();
                         break;
                     case 2:
-                        Console.Write("Informe o login do usuário a ser verificado: ");
+                        Console.Write("\nInforme o login do usuário a ser verificado: ");
                         string loginUsuario = Console.ReadLine();
                         bdTarefas.ConsultarTarefasDeUsuario(loginUsuario);
                         break;
                     case 3:
                         Console.Clear();
-                        Console.WriteLine("Tenha um bom dia!!");
+                        CriarTarefa();
+                        break;
+                    case 4:
+                        Console.Clear();
+                        Console.WriteLine(bdTarefas.Consultar(login));
+                        break;
+                    case 5:
+                        Console.Clear();
+                        PegarCodigo();
+                        MenuAtualizarCompleto();
+                        break;
+                    case 6:
+                        Console.Clear();
+                        PegarCodigo();
+                        MenuDeletarCompleto();
+                        break;
+                    case 7:
+                        Console.Clear();
+                        MenuConfiguracao();
+                        break;
+                    case 8:
+                        Console.Clear();
+                        Console.WriteLine("\nDeslogado com sucesso");
                         break;
                     default:
-                        Console.WriteLine("Informe uma opção válida");
+                        Console.WriteLine("\nInforme uma opção válida");
                         break;
                 }
-            } while (opcao6 != 3);
+            } while (Opcao != 8);
         }//Fim do método
 
         public void AdminOuCliente()

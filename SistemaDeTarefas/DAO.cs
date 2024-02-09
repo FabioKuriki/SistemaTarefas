@@ -50,7 +50,6 @@ namespace SistemaDeTarefas
 
                 MySqlCommand insert = new MySqlCommand(insertUsuario, bd);//Prepara a execução no banco
                 insert.ExecuteNonQuery();//Ctrl + Enter
-                Console.WriteLine("Cadastro realizado com sucesso");
             }
             catch (Exception erro)
             {
@@ -78,7 +77,7 @@ namespace SistemaDeTarefas
             {
                 coluna = "endereco";
             }
-            string atualizar = "update usuario set " + coluna + " = '" + dados + "' where login" + " = " + loginAtual;
+            string atualizar = "update usuario set " + coluna + " = '" + dados + "' where login" + " = '" + loginAtual + "'";
             MySqlCommand update = new MySqlCommand(atualizar, bd);
             update.ExecuteNonQuery();
         }

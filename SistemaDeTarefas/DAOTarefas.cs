@@ -87,20 +87,29 @@ namespace SistemaDeTarefas
             select.Close();//Encerrar o acesso ao Banco de Dados
         }//Fim do método PreencherTarefas
 
-        public void Consultar(string loginAtual)
+        public string Consultar(string loginAtual)
         {
+            msg = "";
             PreencherTarefas();
             for(i = 0; i < contador; i++)
             {
-                if(loginAtual == usuarioLogado[i])
+                if(loginAtual == usuarioLogado[i] && idTarefas[i] != 0)
                 {
-                    Console.WriteLine("\nCódigo da tarefa: " + idTarefas[i] +
+                    msg += "\nCódigo da tarefa: " + idTarefas[i] +
                                       "\nNome: " + nomeTarefa[i] +
                                       "\nDescrição: " + descricao[i] +
-                                      "\nCriado em " + dataHora[i]);
+                                      "\nCriado em " + dataHora[i] + "\n";
+                    
                 }
+
             }
+            if (msg == "")
+            {
+                return "Não há tarefas atualmente";
+            }
+            return msg;
         }//Fim do método Consultar
+
 
         public void ConsultarTarefasDeUsuario(string loginUsuario)
         {
@@ -124,7 +133,7 @@ namespace SistemaDeTarefas
             {
                 if (idTarefas[i] == cod && loginAtual == usuarioLogado[i])
                 {
-                    msg += "\nCódigo da tarefa: " + idTarefas[i] +
+                    msg = "\nCódigo da tarefa: " + idTarefas[i] +
                                       "\nNome: " + nomeTarefa[i] +
                                       "\nDescrição: " + descricao[i] +
                                       "\nCriado em " + dataHora[i];
